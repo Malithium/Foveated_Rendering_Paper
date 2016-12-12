@@ -1,0 +1,17 @@
+\section{Early Foveated Rendering Techniques}
+Making use of foveation in Computer Graphics is not a new idea. This section look's at a papers using these techniques and gives a summary of their findings.
+\subsection{Gaze-Directed Volume Rendering}
+\cite{Levoy} proposed integrating gaze direction into rendering algorithms. The algorithm that the paper describes ray traces a volume dataset over three images sampled at distances with the values of 1, 1/2, 1/4 of native resolution. It made use of a 3D MIPMAP to filter 3D volume taking fewer volume samples along the peripheral rays.
+
+They performed an experiment that made use of an eye tracker that had two infrared light emitting diodes mounted onto it. The reflections of these infrared spots from the iris of each eye was then tracked by cameras mounted on the side of the helmet. the users were evaluated in two modes of the experiment, tracking mode where the user had to follow the motion of a cursor superimposed on the image and saccading mode. The users reported that the high resolution sweet spot followed their gaze perfectly in tracking mode, and adequately enough in saccading mode, the users were also aware of the variable resolution structure of the image. 
+
+In the conclusion of the experiment they noted how their approach would be suited for personal head-mounted displays, however at the time the resolution and angle of the displays were not good enough for this implementation to work. They also identified how their approach could benefit non-gaze environments by having the user attach a 3D cursor to areas of interest on objects within the scene, which would reduce image generation costs. 
+
+\subsection{Gaze-Directed Adaptive Rendering}
+This technique was published in a paper by \cite{Ohshima}. The technique uses a level of detail selection algorithm based on the size of an object in the scene and how far away that object was from the viewpoint. For example any geometry that is close to or within the foveal view is rendered with a higher level of detail wheras anything further away is rendered with less detail, so only the basic shape of the geometry is rendered in the periphery and the more finite details are rendered in the foveal view. This differs from the other techniques in that it does not render at a lower resolution in the periphery instead choosing to eimply render geometry in a lower level of detail.
+
+The way this sytem was tested is exactly the same as the paper by \cite{Levoy}, both papers ran very similar equipment setups. This paper also had the same two test modes, where the user followed a cursor on the screen and a saccading mode. 
+
+The results of the experiment show that through the method that they implemented they were able to reduce the burden of the rendering process and maintain the quality of generated images.
+
+\cite{Guenter:2012:FG:2366145.2366183} identify an issue with this implementation; although the method successfully adapts geometric level of detail to eccentricity it does not do it for rendering resolution. This means that it cannot accelerate applications that are bottlenecked by per-pixel shading cost.

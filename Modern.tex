@@ -1,0 +1,25 @@
+\section{Modern Foveated Rendering Techniques}
+This section details two modern foveation techniques. The first was proposed by \cite{Guenter:2012:FG:2366145.2366183} and the second was proposed by \cite{Vaidyanathan:2014:CPS:2980009.2980011}.
+
+\subsection{MULTIRES}
+The system that would later be called MULTIRES was proposed by \cite{Guenter:2012:FG:2366145.2366183}. The strategy in this paper resembles the one implemented by \cite{Levoy}. This system renders three overlapping layers centred around the central gaze, which they call eccentricity layers. the inner layer is the smallest and rendered at the highest resolution and finest level of detail, the two peripheral layers are rendered at a lower resolution and coarser level of detail, they are then updated at half the temporal rate as the inner layer and are interpolated up to native display resolution and smoothly blended between them. 
+
+In this paper three different user studies were carried out, the first test presented the users with pairs of short animated sequences one of these shorts used non-foveated rendering and the other used foveated rendering at varying quality levels, they then asked the users which of the shorts were of a better quality. This experiment was designed to deduce what foveation quality level was comparable to non-foveated rendering.
+
+The second test presented users with a set of short sequences where the foveation quality would incrementally ramp up or down, users were then asked if the quality increased, decreased or remained the same over the sequence. the goal with this test was to find the lowest foveation quality perceived to be equivalent to a high quality setting.
+
+The final test let the user explore the foveation space themselves they were first presented with a non foveated animation as a reference. The users started at a low level of foveation quality and could do a set of functions, they could increase the quality level, show the non foveated reference again or decrease the quality level, and they then recorded the first quality level index at which users stopped increasing the level and instead compared it to the reference. the test also explored how animation speed effected the demand for foveation quality, they did this by running the test across six different speeds of the moving camera, a panning camera that didn’t move, and a static camera. Each test was presented to the subject twice resulting in 16 different tests.
+
+The results of these tests provided thresholds which were the lowest quality level each subject identified as either equal to or better quality than the non-foveated reference. The threshold for the first test had a mean of 14.9, the second test the mean was 11.9 and for the final test the mean was 14.5. From these values they were able to derive 2 estimates which could be used to predict foveation savings with larger displays. In the conclusion the experiments showed that foveated rendering improves graphics performance by a factor of 5-6 on current desktop displays at HD resolution.
+
+\subsection{Coarse Pixel Shading}
+The focus of the paper by \cite{Vaidyanathan:2014:CPS:2980009.2980011} is not solely on foveated rendering, however it does implement its own algorithm to achieve foveation in rendering. In their implementation several layers are rendered to the screen with decreasing resolution around the viewers gaze, these layers are then composited to produce the final image. In order to understand how foveated rendering can be achieved through this algorithm you need to first understand how their algorithm for Coarse pixel shading works.
+
+The idea behind Coarse Pixel Shading is that in order to shade at a lower rate than once per pixel you need a pixel to represent a group of pixels; this is called a Coarse Pixel. This group of pixels will share the result of a single coarse pixel shader evaluation. Using this method of shading they are also able to vary shading rates across different regions of the screen, in order to achieve this they divide the screen into tiles and allow a different value of Coarse Pixel size per tile, each tile maps to a shading grid with the selected Coarse Pixel size.
+
+With Coarse Pixel Shading you can shade efficiently with foveated rendering, because you can avoid resending geometry over multiple rendering passes. They are able to control the shading rate with a few parameters such as the point that represents the centre of the gaze, aspect ratio, inner and outer minor radii, and inner and outer Coarse Pixel parameters.
+
+Because the focus of the paper was not foveated rendering there are no user tests performed with it in mind.
+
+\subsection{limitations}
+The paper by \cite{Patney} highlights an issue with both the above renderers, both renderers focus on reducing the performance costs of rendering, however neither of them minimize perceptible artefacts introduced in the foveation process. This in turn causes temporal aliasing, which distracts users and break's immersion.
